@@ -23,12 +23,12 @@ int read_buttons() {
   // my buttons when read are centered at these valies: 0, 144, 329, 504, 741
   // we add approx 50 to those values and check to see if we are close
   if (adc_key_in > 1000) return NONE;
-  if (adc_key_in < 50)   return RIGHT;  
-  if (adc_key_in < 195)  return UP; 
-  if (adc_key_in < 380)  return DOWN; 
-  if (adc_key_in < 555)  return LEFT; 
+  if (adc_key_in < 50)   return RIGHT;
+  if (adc_key_in < 195)  return UP;
+  if (adc_key_in < 380)  return DOWN;
+  if (adc_key_in < 555)  return LEFT;
   if (adc_key_in < 790)  return SELECT;
- 
+
   return NONE;
 }
 
@@ -42,11 +42,11 @@ unsigned int bpm, beat, compass, beats, intervalo, atras, adelante;
 void setup() {
   bpm = 60;
   intervalo = MILLIS_IN_MIN / bpm;
-  
+
   tono.begin(BUZZER);
   pinMode(DRUM, INPUT);
   digitalWrite(DRUM, INPUT_PULLUP);
- 
+
   lcd.begin(16, 2);
   render();
 }
@@ -57,11 +57,11 @@ void render() {
   lcd.clear();
   sprintf(buffer, "%3u-%u", compass, beat);
   lcd.print(buffer);
-  
+
   lcd.setCursor(8,0);
   sprintf(buffer, "%3u BPM", bpm);
   lcd.print(buffer);
-  
+
   lcd.setCursor(0,1);
   switch (error) {
     case -3: { lcd.print("s*_____f"); break; }
@@ -89,7 +89,7 @@ void loop() {
       } else {
         tono.play(NOTE_C7, 150);
       }
-      
+
       acumulado += intervalo;
       beats += 1;
       render();
@@ -100,7 +100,7 @@ void loop() {
   }
 
   int button = read_buttons(); // read the buttons
-  
+
 /*
   if (digitalRead(DRUM) == LOW && !apretado) {
     hit = acumulado - millis();
@@ -109,21 +109,6 @@ void loop() {
   }
 */
 
-/*  TODO
- *  Tempo check, quiet count
- *  Scoring
- *  Dificultad
- *  Duración nota (negra, corchea...)
- *  Tiempos compás
- *  Acentos
- *  Resolución metrónomo
- *  Guardar configuración anterior
- *  Progreso de las lecciones
- *  Múltiples instrumentos/cuerpos
- *  
- *  
- */
- 
   if (!apretado) {
     switch (button) {
       case RIGHT: {
@@ -139,9 +124,9 @@ void loop() {
           error = - precision(atras);
         } else {
           // el golpe está adelantado
-          error =   precision(adelante);          
+          error =   precision(adelante);
         }
-        
+
         render();
         break;
       }
